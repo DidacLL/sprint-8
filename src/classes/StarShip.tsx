@@ -22,12 +22,14 @@ export default class StarShip {
     created?: Date;
     edited?: Date;
     url?: string;
+    id!: number;
 
     constructor(rawData: any,imgURL: string) {
         this.rawData = rawData;
         this.name = rawData.name as string;
         this.model = rawData.model as string;
         this.imgUrl=imgURL;
+        this.id=StarShip.generateID(rawData.url)
     }
 
     parseAllData(){
@@ -45,5 +47,9 @@ export default class StarShip {
         this.edited = new Date(this.rawData.edited);
         this.url = this.rawData.url as string;
         this.consumables = this.rawData.consumables as string;
+    }
+    static  generateID(url:string){
+       return Number.parseInt(url.substring(url.length-2,url.length-1));
+
     }
 }
