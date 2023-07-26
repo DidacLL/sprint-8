@@ -9,15 +9,18 @@ export const StyledMainButton = styled.button`
   font-weight: bold;
 
   &:hover {
-    color: darkgrey;    
+    color: darkgrey;
   }
-  &:active{
+
+  &:active {
     color: black;
     background-color: lightgray;
   }
-  &:disabled{
+
+  &:disabled {
     color: dimgray;
   }
+
   &:disabled:active {
     color: dimgray;
     background-color: inherit;

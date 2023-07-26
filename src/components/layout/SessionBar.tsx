@@ -6,11 +6,11 @@ interface SessionBarProps {
 }
 
 export const SessionBar = ({userLogged}: SessionBarProps) => <>
-    <Link to={userLogged?"/home":"/login"}>
-        <StyledMainButton > {userLogged?userLogged: "LOG IN"} </StyledMainButton>
+    <Link to={userLogged ? "/home" : "/login"}>
+        <StyledMainButton> {userLogged ? userLogged : "LOG IN"} </StyledMainButton>
     </Link>
     /
-    <Link to={userLogged?"/home":"/login"}>
-        <StyledMainButton> {userLogged?"EXIT": "SIGN UP"}</StyledMainButton>
+    <Link to={userLogged ? "/home" : "/login"}>
+        <StyledMainButton> {userLogged ? "EXIT" : "SIGN UP"}</StyledMainButton>
     </Link>
 </>;

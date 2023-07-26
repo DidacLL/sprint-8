@@ -1,7 +1,4 @@
-import StarShip from "./StarShip";
-import Film from "./Film";
-
-export default class Pilot {
+export default class Character {
     rawData!: any;
     name: string;
     height?: string;
@@ -11,21 +8,35 @@ export default class Pilot {
     eye_color?: string;
     birth_year?: string;
     gender?: string;
-    homeworld?: string;
-    films?: Film[];
-    species?: string[];
-    vehicles?: string[];
-    starships?: StarShip[];
+    films?: string[];
+    starships?: string[];
     created?: Date;
     edited?: Date;
-    url?: string;
+    url: string;
+    imgURL: string;
+    id: number;
 
     constructor(rawData: any) {
         this.rawData = rawData;
+        this.url = this.rawData.url as string;
+        this.id = Character.generateID(this.url);
         this.name = rawData.name as string;
+        this.imgURL = Character.generateImgURL(this.id);
+        this.parseAllData()
+
     }
-    
-    parseAllData(){
+
+    static generateImgURL(id: number) {
+        return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`;
+    }
+
+    static generateID(url: string) {
+        const val = "https://swapi.dev/api/people/".length
+        return Number.parseInt(url.substring(val, url.indexOf("/", val)));
+
+    }
+
+    parseAllData() {
         this.height = this.rawData.height as string;
         this.mass = this.rawData.mass as string;
         this.hair_color = this.rawData.hair_color as string;
@@ -33,13 +44,9 @@ export default class Pilot {
         this.eye_color = this.rawData.eye_color as string;
         this.birth_year = this.rawData.birth_year as string;
         this.gender = this.rawData.gender as string;
-        this.homeworld = this.rawData.homeworld as string;
-        this.films = (this.rawData.films || []).map((filmUrl: string) => ({ url: filmUrl }));
-        this.species = this.rawData.species as string[];
-        this.vehicles = (this.rawData.vehicles || []).map((vehicleUrl: string) => ({ url: vehicleUrl }));
-        this.starships = (this.rawData.starships || []).map((starshipUrl: string) => ({ url: starshipUrl }));
+        this.films = this.rawData.films as string[];
+        this.starships = this.rawData.starships as string[];
         this.created = new Date(this.rawData.created);
         this.edited = new Date(this.rawData.edited);
-        this.url = this.rawData.url as string;
     }
 }
