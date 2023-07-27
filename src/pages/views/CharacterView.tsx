@@ -38,9 +38,6 @@ export const CharacterView = () => {
         return setCharacter(undefined)
     }, []);
     const fetchData = async () => {
-        // setIsLoading(true);
-        // setError(null);
-
         const id = searchParams.get('id');
         try {
             const response = await fetch(`https://swapi.dev/api/people/${id}/`);

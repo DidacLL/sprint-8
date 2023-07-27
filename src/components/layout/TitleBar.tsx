@@ -1,10 +1,11 @@
 import {SessionBar} from "./SessionBar";
 
 interface TitleBarProps {
-    userLogged?: string
+    userLogged?: string,
+    logOut: () => any
 }
 
-export const TitleBar = ({userLogged}: TitleBarProps) => <div style={{
+export const TitleBar = ({userLogged, logOut}: TitleBarProps) => <div style={{
     height: "6em",
     display: "flex",
     justifyContent: "center",
@@ -28,6 +29,6 @@ export const TitleBar = ({userLogged}: TitleBarProps) => <div style={{
         top: 0,
         padding: "2em"
     }}>
-        <SessionBar userLogged={userLogged}/>
+        <SessionBar logOut={logOut} userLogged={userLogged}/>
     </div>
 </div>;

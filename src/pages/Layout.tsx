@@ -4,10 +4,11 @@ import {TitleBar} from "../components/layout/TitleBar";
 import {Outlet} from "react-router-dom";
 
 interface LayoutProps {
-    userLogged?: string
+    userLogged?: string,
+    logOut: () => any
 }
 
-export const Layout = ({userLogged}: LayoutProps) => {
+export const Layout = ({userLogged, logOut}: LayoutProps) => {
 
     return <div style={{
         display: "flex", flexDirection: "column",
@@ -16,7 +17,7 @@ export const Layout = ({userLogged}: LayoutProps) => {
         <div style={{
             display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "1%"
         }}>
-            <TitleBar userLogged={userLogged}/>
+            <TitleBar logOut={logOut} userLogged={userLogged}/>
             <StyledHR/>
             <NavBar/>
             <StyledHR/>

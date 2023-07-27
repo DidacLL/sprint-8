@@ -1,30 +1,45 @@
 import {StyledMainButton} from "../components/styled/StyledMainButton";
 import {useState} from "react";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 interface LoginProps {
     onSubmit: (userName: string) => void
 }
 
 export const Login = ({onSubmit}: LoginProps) => {
-
+    const [searchParams] = useSearchParams();
     const [password, setPassword] = useState("");
+    const [passwordRepeat, setPasswordRepeat] = useState("");
     const [userName, setUserName] = useState("");
 
 
     const [saveUser, setSaveUser] = useState<boolean>();
+    const navigate = useNavigate();
+    const isNew = searchParams.get('new');
 
     function login() {
-
+        const savedUser = localStorage.getItem(userName)
+        if (!isNew) {
+            if (savedUser && savedUser.match(password)) {
+                onSubmit(userName);
+            } else {
+                navigate('/login?new=true')
+                alert("User or password are wrong, try again or register as new user")
+            }
+        } else {
+            if (password === passwordRepeat) {
+                localStorage.setItem(userName, password);
+                onSubmit(userName);
+            } else {
+                alert("Password does not match, try again");
+                setPassword("");
+                setUserName("");
+                setPasswordRepeat("");
+                setSaveUser(false);
+            }
+        }
         if (saveUser) {
             localStorage.setItem("saved_user", userName);
-        }
-
-        const savedUser = localStorage.getItem(userName)
-        if (savedUser && savedUser.match(password)) {
-            onSubmit(userName);
-        } else {
-            localStorage.setItem(userName, password);
-            onSubmit(userName);
         }
         setPassword("")
         setUserName("")
@@ -59,7 +74,16 @@ export const Login = ({onSubmit}: LoginProps) => {
                 />
             </div>
 
-
+            {isNew ?
+                <div style={{textAlign: "right"}}>
+                    <label> Repeat Password: </label>
+                    <input style={{margin: "1em"}}
+                           onChange={(e) => setPasswordRepeat(e.target.value)}
+                           type={"password"}
+                           value={passwordRepeat}
+                    />
+                </div> : ''
+            }
             <div style={{textAlign: "right"}}>
                 <label> Save user: </label>
                 <input style={{margin: "1em"}}
@@ -72,7 +96,7 @@ export const Login = ({onSubmit}: LoginProps) => {
             <StyledMainButton
                 disabled={userName.length === 0 || password.length === 0}
                 onClick={login}
-            > LOG IN </StyledMainButton>
+            > {isNew ? "REGISTER" : "LOG IN"}</StyledMainButton>
         </div>
     </div>
 };

@@ -28,9 +28,10 @@ function App() {
 
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout userLogged={user}/>}>
+                <Route path="/" element={<Layout logOut={() => setUser(undefined)} userLogged={user}/>}>
                     <Route index element={<Home/>}/>
-                    <Route path="login" element={<Login onSubmit={user ? () => setUser(undefined) : loginUser}/>}/>
+                    <Route path="login"
+                           element={user ? <Home/> : <Login onSubmit={user ? () => setUser(undefined) : loginUser}/>}/>
                     <Route path="starships">
                         <Route path="view" element={user ? <StarShipView/> : <Login onSubmit={loginUser}/>}/>
                         <Route path="*" element={user ? <StarshipPage/> : <Login onSubmit={loginUser}/>}/>
